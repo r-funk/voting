@@ -3,7 +3,7 @@ var path = require('path');
 
 // PostCSS Plugins
 var autoprefixer = require('autoprefixer');
-var postcssImport = require('postcss-partial-import');
+var postcssImport = require('postcss-import');
 var postcssNested = require('postcss-nested');
 var postcssVars = require('postcss-simple-vars');
 
@@ -36,7 +36,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.css$/,
+        test: /\.scss$/,
         loader: 'style!css!postcss'
       },
       {
@@ -54,7 +54,8 @@ module.exports = {
         postcssNested,
         postcssVars,
         postcssImport({
-          addDependencyTo: webpack
+          addDependencyTo: webpack,
+          from: path.resolve(__dirname, 'client')
         }),
       ];
     },
