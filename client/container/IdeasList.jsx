@@ -17,7 +17,7 @@ class IdeasList extends React.Component {
       <div>
         {this.renderLoading()}
         {this.props.ideas.data.map((idea, key) => {
-          return <Card key={key} title={idea.title} />
+          return <Card key={key} title={idea.title} detail={idea.detail} author={idea.author} />
         })}
       </div>
     );
