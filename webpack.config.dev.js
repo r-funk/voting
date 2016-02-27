@@ -3,9 +3,8 @@ var path = require('path');
 
 // PostCSS Plugins
 var autoprefixer = require('autoprefixer');
+var precss = require('precss');
 var postcssImport = require('postcss-import');
-var postcssNested = require('postcss-nested');
-var postcssVars = require('postcss-simple-vars');
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
@@ -37,7 +36,7 @@ module.exports = {
     loaders: [
       {
         test: /\.scss$/,
-        loader: 'style!css!postcss'
+        loader: 'style-loader!css-loader!postcss-loader?parser=postcss-scss'
       },
       {
         test: /\.jsx?$/,
@@ -47,18 +46,18 @@ module.exports = {
           presets: ['react-hmre'],
         },
       },
-    ],
-    postcss: function (webpack) {
-      return [
-        autoprefixer,
-        postcssNested,
-        postcssVars,
-        postcssImport({
-          addDependencyTo: webpack,
-          from: path.resolve(__dirname, 'client')
-        }),
-      ];
-    },
+    ]
+  },
+
+  postcss: function (webpack) {
+    return [
+      autoprefixer,
+      postcssImport({
+        addDependencyTo: webpack,
+        from: path.resolve(__dirname, 'client')
+      }),
+      precss
+    ];
   },
 
   plugins: [
